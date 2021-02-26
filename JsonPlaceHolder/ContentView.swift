@@ -8,9 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var users: [User] = []    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        
+        List(users) { user in
+            HStack(alignment: .center){
+                VStack(alignment: .leading) {
+                    Text(user.username)
+                        .font(.headline)
+                    Text(user.name)
+                        .font(.subheadline)
+                }
+                Spacer()
+                Text(user.website)
+            }
+        }
+        .onAppear {
+            apiCall().getUsers { (users) in
+                self.users = users
+            }
+        }
     }
 }
 
